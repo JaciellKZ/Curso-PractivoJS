@@ -2,24 +2,32 @@
 const menuEmail = document.querySelector('.navbar-email');
 const menuHamIcon = document.querySelector('.menu');
 const menuCarritoIcon = document.querySelector('.navbar-shopping-cart');
+const productDetailCloseIcon = document.querySelector('.product-detail-close');
 const desktopMenu = document.querySelector('.desktop-menu');
 const shoppingCartContainer = document.querySelector('#shoppingCartContainer');
 const mobileMenu = document.querySelector('.mobile-menu');
 const cardsContainer = document.querySelector('.cards-container');
+const productDetailContainer = document.querySelector('#productDetail');
 //hacer el evento
-menuEmail.addEventListener('click', toggleDesktopMenu)
-menuHamIcon.addEventListener('click', toggleMobileMenu)
-menuCarritoIcon.addEventListener('click', toggleCarritoAside)
+menuEmail.addEventListener('click', toggleDesktopMenu);
+menuHamIcon.addEventListener('click', toggleMobileMenu);
+menuCarritoIcon.addEventListener('click', toggleCarritoAside);
+productDetailCloseIcon.addEventListener('click', closeProductDetailAside);
 
 //abrir una pestaña
 function toggleDesktopMenu ()
 {   
     const  isAsideClosed = shoppingCartContainer.classList.contains('inactive');
-    
+    const isProductDetailClosed = productDetailContainer.classList.contains('inactive');
     if(!isAsideClosed)
     {
         shoppingCartContainer.classList.add('inactive');
     }
+
+    if(!isProductDetailClosed)
+        {
+            productDetailContainer.classList.add('inactive');
+        }
 
     desktopMenu.classList.toggle('inactive');
 }
@@ -37,6 +45,8 @@ function toggleMobileMenu()
         shoppingCartContainer.classList.add('inactive');
     }
 
+    closeProductDetailAside();
+
     mobileMenu.classList.toggle('inactive');
 }
 //cerrar y abrir pestañas
@@ -44,7 +54,8 @@ function toggleCarritoAside ()
 {   
     const isMobileMenuClosed = mobileMenu.classList.contains('inactive');
     const isDesktopMenuClosed = desktopMenu.classList.contains('inactive');
-    
+    const isProductDetailClosed = productDetailContainer.classList.contains('inactive');
+
     if(!isMobileMenuClosed)
         {
             mobileMenu.classList.add('inactive');
@@ -54,10 +65,26 @@ function toggleCarritoAside ()
         {
             desktopMenu.classList.add('inactive');
         }
+        
+    
+    if(!isProductDetailClosed)
+        {
+            productDetailContainer.classList.add('inactive');
+        }
 
     shoppingCartContainer.classList.toggle('inactive');
     
 
+}
+function openProductDetailAside()
+{
+    shoppingCartContainer.classList.add('inactive');
+    productDetailContainer.classList.remove('inactive');
+    desktopMenu.classList.add('inactive');
+}
+function closeProductDetailAside()
+{
+    productDetailContainer.classList.add('inactive');
 }
 //como hacer arrays de cards aqui abajo
 const productList = [];
@@ -92,7 +119,8 @@ for (product of arr)
 
     const productImg = document.createElement('img');
     productImg.setAttribute('src', product.image);
-    
+    productImg.addEventListener('click', openProductDetailAside);
+
 //product = {name, price, image} -> product.image
     const productInfo = document.createElement('div');
     productInfo.classList.add('product-info');
